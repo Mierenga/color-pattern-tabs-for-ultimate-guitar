@@ -1,0 +1,29 @@
+/* @import url('https://fonts.googleapis.com/css?family=Oxygen+Mono'); */
+
+.chrono {
+  color: white;
+  text-shadow: 0 0 3px black;
+  /* border-left-width: 1px; */
+  /* border-right-width: 1px; */
+}
+
+.top {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-top-width: 1px;
+}
+
+.bottom {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-width: 1px;
+}
+
+.chronos-main {
+  line-height: 1 !important;
+  font-family: monospace;
+}
+
+span {
+  color: white !important;
+}

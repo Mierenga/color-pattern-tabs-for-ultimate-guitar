@@ -1,0 +1,15 @@
+  {
+    "name": "Simple Guitar Tabs for Ultimate Guitar",
+    "version": "0.0.1",
+    "description": "Removes all the clutter from Ultimate Guitar tabs and uses color to enhance your pattern recognition.",
+    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "background": {
+      "scripts": ["init.js"],
+      "css": ["chronos-style.css"],
+      "persistent": false
+    },
+    "page_action": {
+      "default_popup": "index.html"
+    },
+    "manifest_version": 2
+  }
