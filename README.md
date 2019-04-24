@@ -11,6 +11,7 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
 
 - [ ] Handle 2-digit frets with single color
 - [ ] Fix formatting of auxilliary tables under center-align
+- [ ] Scrape title and insert if not already present in raw tablature
 - [ ] Improve scrolling capabilities
 
 - Options menu
