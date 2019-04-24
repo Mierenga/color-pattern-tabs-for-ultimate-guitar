@@ -30,7 +30,7 @@ function run() {
   let tabLineIndices = [];
   let tabRow = [];
   let tabLines = preLines.filter((line, i) => {
-    if (line.includes('-|')) {
+    if (isTabLine(line)) {
       tabRow.push(i);
       if (tabRow.length === 6) {
         tabLineIndices.push(tabRow.slice());
@@ -138,6 +138,13 @@ function run() {
 
   // Replace all the dashes with en-dashes so they look nicer
   pre.innerHTML = pre.innerHTML.split('-').join('–');
+}
+
+function isTabLine(line) {
+  return ((l) => { 
+      return (/^[abcdefgABCDEFG]\|[0-9(\-]/.exec(l) !== null) ||
+    (/-[0-9)\s\-]*\|/.exec(l) !== null);
+  })(line.trim());
 }
 
 
