@@ -142,8 +142,8 @@ function run() {
 
 function isTabLine(line) {
   return ((l) => { 
-      return (/^[abcdefgABCDEFG]\|[0-9(\-]/.exec(l) !== null) ||
-    (/-[0-9)\s\-]*\|/.exec(l) !== null);
+      return (/^[abcdefgABCDEFG][\|:][0-9(\-]/.exec(l) !== null) ||
+             (/-[0-9)\s\-]*\|/.exec(l) !== null);
   })(line.trim());
 }
 
