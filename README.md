@@ -7,11 +7,13 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
 ![](img/after2.png?raw=true)
 
 
-# Potential TODO
+# Potentials
 
 - [ ] Handle 2-digit frets with single color
 - [ ] Fix formatting of auxilliary tables under center-align
+- [ ] Scrape title and insert if not already present in raw tablature
 - [ ] Improve scrolling capabilities
+- [ ] Scroll-map sidebar
 
 - Options menu
     - Colors
@@ -20,6 +22,7 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
         - [ ] rotate color order
         - [ ] choose color pallete
         - [ ] outline only
+        - [ ] choose background color
     - Text
         - [ ] choose left-align or center-align
         - [ ] set font size
