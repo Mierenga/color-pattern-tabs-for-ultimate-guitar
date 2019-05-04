@@ -1,0 +1,27 @@
+{
+  "name": "color-pattern-tabs-for-ultimate-guitar",
+  "version": "1.0.0",
+  "description": "Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses color to enhance your pattern recognition.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "controls-gui": "^1.2.2",
+    "controls-state": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mierenga/color-pattern-tabs-for-ultimate-guitar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mierenga/color-pattern-tabs-for-ultimate-guitar/issues"
+  },
+  "homepage": "https://github.com/Mierenga/color-pattern-tabs-for-ultimate-guitar#readme"
+}
