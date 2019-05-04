@@ -20,6 +20,9 @@ function simplify() {
         {file: '/js/chronos-colors.js'});
     chrome.tabs.executeScript(
         tabs[0].id,
+        {file: '/js/ChronoTabParser.js'});
+    chrome.tabs.executeScript(
+        tabs[0].id,
         {file: '/js/simplify.js'});
   });
 }

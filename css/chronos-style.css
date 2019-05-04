@@ -1,10 +1,17 @@
 /* @import url('https://fonts.googleapis.com/css?family=Oxygen+Mono'); */
 
-.chrono {
+.chrono_column {
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+
+.chrono_dash {
+
+}
+
+.chrono_number {
   color: white;
   text-shadow: 0 0 3px black;
-  /* border-left-width: 1px; */
-  /* border-right-width: 1px; */
 }
 
 .top {
@@ -13,17 +20,34 @@
   border-top-width: 1px;
 }
 
+.top_left {
+  border-top-left-radius: 5px;
+}
+
+.top_right {
+  border-top-right-radius: 5px;
+}
+
 .bottom {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-width: 1px;
 }
 
-.chronos-main {
-  line-height: 1 !important;
-  font-family: monospace;
+.bottom_left {
+  border-bottom-left-radius: 5px;
 }
 
-span {
-  color: white !important;
+.bottom_right {
+  border-bottom-right-radius: 5px;
+}
+
+.chronos_main {
+  line-height: 1 !important;
+}
+
+.double_left {
+}
+
+.double_right {
 }
