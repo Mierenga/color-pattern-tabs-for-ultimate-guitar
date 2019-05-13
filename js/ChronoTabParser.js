@@ -51,6 +51,19 @@ class ChronoTabParser {
       for (let t = 0; t < staff[0].length; t++) {
         let chrono = ChronoTabParser.getChronoAt(t, staff);
         if (chrono) {
+          let adjacentChrono = ChronoTabParser.getChronoAt(t+1, staff);
+          if (adjacentChrono) {
+            let chronoA = chrono.split(ChronoTabParser.chronoNoteSeparator);
+            let chronoB = adjacentChrono.split(ChronoTabParser.chronoNoteSeparator);
+            for (let stringIndex = 0; stringIndex < 6; stringIndex++) {
+              chronoA[stringIndex] += chronoB[stringIndex];
+            }
+            if (chronoA.every(note => note.includes('-'))) {
+              adjacentChrono = null;
+            } else {
+              chrono = chronoA.join(ChronoTabParser.chronoNoteSeparator);
+            }
+          }
           if (!this._chronos.groupsDict[chrono]) {
             this._chronos.groupsDict[chrono] = {
               groupIndex: chronoGroupIndex,
@@ -67,6 +80,7 @@ class ChronoTabParser {
               x: this._tabSheet.rawTabLineIndices[staffIndex][0],
               y: t,
             },
+            width: (adjacentChrono ? 2 : 1),
           };
           let i = this._chronos.groupsDict[chrono].groupIndex;
           this._chronos.groupsList[i].items.push(instance);
@@ -75,6 +89,7 @@ class ChronoTabParser {
             this._chronos.coordinateMap[instance.position.x] = {};
           }
           this._chronos.coordinateMap[instance.position.x][instance.position.y] = chrono;
+          if (adjacentChrono) { t++; };
         }
       }
     });
@@ -115,7 +130,7 @@ class ChronoTabParser {
     if (index >= staff[0].length) { throw new EndOfRow(); }
     let chrono = staff.map(string => string[index]).join('');
     if (/[0-9]/.exec(chrono) === null) { return null; };
-    return chrono;
+    return chrono.split('').join(ChronoTabParser.chronoNoteSeparator);
   }
 
   /**
@@ -129,5 +144,9 @@ class ChronoTabParser {
         return (/^[abcdefgABCDEFG][\|:][0-9(\-]/.exec(l) !== null) ||
                (/-[0-9)\s\-]*\|/.exec(l) !== null);
     })(line.trim());
+  }
+
+  static get chronoNoteSeparator() {
+    return '|';
   }
 }

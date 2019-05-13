@@ -1,5 +1,5 @@
 // cool it
-colors = [
+xcolors = [
 // '#005E57',
 '#12420D',
 '#0C7D00',
@@ -15,7 +15,7 @@ colors = [
 ];
 
 // star brite (crayola)
-xcolors=[
+colors=[
   '#F898C8',
   '#E91E63',
   // '#D62518',
