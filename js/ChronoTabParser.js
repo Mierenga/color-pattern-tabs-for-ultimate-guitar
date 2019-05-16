@@ -1,6 +1,6 @@
 class ChronoTabParser {
-  constructor(lines) {
-    this._rawLines = lines;
+  constructor(text) {
+    this._rawLines = text.split('\n');
     this._groupLinesIntoStaffs();
     this._findAndGroupChronos();
   }
@@ -159,3 +159,5 @@ class ChronoTabParser {
     return '|';
   }
 }
+
+class EndOfRow extends Error { isEndOfRow = true; }

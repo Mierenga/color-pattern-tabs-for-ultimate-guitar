@@ -5,7 +5,6 @@
     "permissions": ["activeTab", "declarativeContent", "storage"],
     "background": {
       "scripts": ["init.js"],
-      "css": ["chronos-style.css"],
       "persistent": false
     },
     "page_action": {
