@@ -1,5 +1,4 @@
-class ChronoTabParser {
-
+module.exports = class ChronoTabParser {
   constructor(lines) {
     this._rawLines = lines;
     this._groupLinesIntoStaffs();
@@ -50,47 +49,42 @@ class ChronoTabParser {
     this._tabSheet.staffs.forEach((staff, staffIndex) => {
       for (let t = 0; t < staff[0].length; t++) {
         let chrono = ChronoTabParser.getChronoAt(t, staff);
-        if (chrono) {
-          let adjacentChrono = ChronoTabParser.getChronoAt(t+1, staff);
-          if (adjacentChrono) {
-            let chronoA = chrono.split(ChronoTabParser.chronoNoteSeparator);
-            let chronoB = adjacentChrono.split(ChronoTabParser.chronoNoteSeparator);
-            for (let stringIndex = 0; stringIndex < 6; stringIndex++) {
-              chronoA[stringIndex] += chronoB[stringIndex];
-            }
-            if (chronoA.every(note => note.includes('-'))) {
-              adjacentChrono = null;
-            } else {
-              chrono = chronoA.join(ChronoTabParser.chronoNoteSeparator);
-            }
+        if (!chrono) { continue; }
+        let adjacentChrono = ChronoTabParser.getChronoAt(t+1, staff);
+        if (adjacentChrono) {
+          let merged = ChronoTabParser.mergeChronos(chrono, adjacentChrono);
+          if (merged) {
+            chrono = merged;
+          } else {
+            adjacentChrono = null;
           }
-          if (!this._chronos.groupsDict[chrono]) {
-            this._chronos.groupsDict[chrono] = {
-              groupIndex: chronoGroupIndex,
-            };
-            this._chronos.groupsList.push({
-              chrono: chrono,
-              items: [],
-              groupIndex: chronoGroupIndex,
-            });
-            chronoGroupIndex++;
-          }
-          let instance = {
-            position: {
-              x: this._tabSheet.rawTabLineIndices[staffIndex][0],
-              y: t,
-            },
-            width: (adjacentChrono ? 2 : 1),
-          };
-          let i = this._chronos.groupsDict[chrono].groupIndex;
-          this._chronos.groupsList[i].items.push(instance);
-
-          if (!this._chronos.coordinateMap[instance.position.x]) {
-            this._chronos.coordinateMap[instance.position.x] = {};
-          }
-          this._chronos.coordinateMap[instance.position.x][instance.position.y] = chrono;
-          if (adjacentChrono) { t++; };
         }
+        if (!this._chronos.groupsDict[chrono]) {
+          this._chronos.groupsDict[chrono] = {
+            groupIndex: chronoGroupIndex,
+          };
+          this._chronos.groupsList.push({
+            chrono: chrono,
+            items: [],
+            groupIndex: chronoGroupIndex,
+          });
+          chronoGroupIndex++;
+        }
+        let instance = {
+          position: {
+            x: this._tabSheet.rawTabLineIndices[staffIndex][0],
+            y: t,
+          },
+          width: (adjacentChrono ? 2 : 1),
+        };
+        let groupIndex = this._chronos.groupsDict[chrono].groupIndex;
+        this._chronos.groupsList[groupIndex].items.push(instance);
+
+        if (!this._chronos.coordinateMap[instance.position.x]) {
+          this._chronos.coordinateMap[instance.position.x] = {};
+        }
+        this._chronos.coordinateMap[instance.position.x][instance.position.y] = chrono;
+        if (adjacentChrono) { t++; };
       }
     });
   }
@@ -118,11 +112,26 @@ class ChronoTabParser {
   }
 
   /**
+   * Return a two-deigit chrono merged from two adjacent
+   * columns 
+   * mergeChronos('-|1|1|1|1|-|-', '-|1|2|2|3|-|-') === '-|11|12|12|13|-|-'
+   */
+  static mergeChronos(chronoA, chronoB) {
+    let a = chronoA.split(ChronoTabParser.chronoNoteSeparator);
+    let b = chronoB.split(ChronoTabParser.chronoNoteSeparator);
+    let merged = a.map((val, i) => val + b[i]);
+    // Chronos that don't share any strings can't be merged
+    if (merged.every(val => val.includes('-'))) { return null; } 
+    return merged.join(ChronoTabParser.chronoNoteSeparator);
+  }
+
+
+  /**
    * Return the column representing a single note or chord in time if one
    * is found, otherwise return null.
    * @param {number} index the position in the `staff` to pull a chrono
    * @param {Array<string>} staff items representing discrete sequential musical notes or chords
-   * @return {string} the sequence of numbers, dashes, and other special
+   * @return {string|null} the sequence of numbers, dashes, and other special
    *  characters that make up the chrono
    * @throws {EndOfRow} when the index is out of range for the row
    */
@@ -140,10 +149,10 @@ class ChronoTabParser {
    *   being a line of tablature
    */
   static isTabLine(line) {
-    return ((l) => { 
-        return (/^[abcdefgABCDEFG][\|:][0-9(\-]/.exec(l) !== null) ||
-               (/-[0-9)\s\-]*\|/.exec(l) !== null);
-    })(line.trim());
+    return ((l) => 
+      (/^[abcdefgABCDEFG][\|:][0-9(\-]/.exec(l) !== null) ||
+      (/-[0-9)\s\-]*\|/.exec(l) !== null)
+    )(line.trim());
   }
 
   static get chronoNoteSeparator() {
