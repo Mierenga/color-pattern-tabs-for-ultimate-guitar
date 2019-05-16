@@ -1,4 +1,4 @@
-module.exports = class ChronoTabParser {
+class ChronoTabParser {
   constructor(lines) {
     this._rawLines = lines;
     this._groupLinesIntoStaffs();

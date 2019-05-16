@@ -6,6 +6,8 @@ function run() {
   const unformattedLines = tabContainer.innerText.split('\n')
   const tabSheet = new ChronoTabParser(unformattedLines);
 
+  // const tabStyler;
+
   styleFunctions = [];
 
   tabSheet.chronos.groupsList.forEach((group, groupIndex) => {

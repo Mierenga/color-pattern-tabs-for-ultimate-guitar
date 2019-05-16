@@ -1,0 +1,9 @@
+<script src="../test/index.js"></script>
+<script src="../js/ChronoTabParser.js"></script>
+<script>
+  eg(ChronoTabParser.mergeChronos, f => {
+    n(0, f('-|1|1|1|1|-', '-|1|2|2|3|-') === '--|11|12|12|13|--');
+    n(1, f('-|1|1|9|x|-', '-|0|0|-|-|-') === '--|10|10|9-|x-|--');
+    n(2, f('-|1|-|4|2|-', '-|-|2|-|-|-') === null);
+  });
+</script>
