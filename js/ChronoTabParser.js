@@ -17,6 +17,7 @@ class ChronoTabParser {
     let longestCurrentStaffLineLength = 0;
     this._tabSheet.tabLines = this._rawLines.filter((rawLine, rawLineIndex) => {
       if (ChronoTabParser.isTabLine(rawLine)) {
+        console.log('found tab line');
         currentStaffRawIndices.push(rawLineIndex);
         let staffLine = rawLine.trim();
         currentStaff.push(staffLine);
@@ -133,11 +134,10 @@ class ChronoTabParser {
    * @param {Array<string>} staff items representing discrete sequential musical notes or chords
    * @return {string|null} the sequence of numbers, dashes, and other special
    *  characters that make up the chrono
-   * @throws {EndOfRow} when the index is out of range for the row
    */
   static getChronoAt(index, staff) {
-    if (index >= staff[0].length) { throw new EndOfRow(); }
-    let chrono = staff.map(string => string[index]).join('');
+    if (index >= staff[0].length) { return null; }
+    let chrono = staff.map(string =>  string[index]).join('');
     if (/[0-9]/.exec(chrono) === null) { return null; };
     return chrono.split('').join(ChronoTabParser.chronoNoteSeparator);
   }
@@ -160,4 +160,3 @@ class ChronoTabParser {
   }
 }
 
-class EndOfRow extends Error { isEndOfRow = true; }

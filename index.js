@@ -7,7 +7,7 @@ document.chronos = ((exports)=>{
     font: 'Courier',
     alignment: 'center',
     textColor: 'grey',
-    longDash: true,
+    longdashOverride: ' ',
     colorTheme: 'nature',
   };
 

@@ -76,7 +76,7 @@ class ChronoTabStyler {
       lines[indexKey] = lines[indexKey].replace(String.fromCharCode(13), '');
       lines[indexKey] += ' '.repeat(this.tabSheet.raw.linePaddings[indexKey]);
     });
-    return lines.join('\n');
+    return lines;
   }
   static colorGenerator(i, colorTheme) {
     return document.chronos_colors[colorTheme][i%document.chronos_colors[colorTheme].length];

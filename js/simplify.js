@@ -7,8 +7,8 @@ function run(config) {
   applyBaseStyles(tabContainer, config);
   const tabSheet = new ChronoTabParser(tabContainer.innerText);
   const tabStyler = new ChronoTabStyler(tabSheet, config.colorTheme || 'constructionpaper');
-  const styledText = tabStyler.getStyledText();
-  tabContainer.innerHTML = getTextModifications(styledText, config);
+  const styledLines = tabStyler.getStyledText();
+  tabContainer.innerHTML = concludingLineStyles(styledLines, config).join('\n');;
 }
 
 function getTablatureContainerElement() {
@@ -42,12 +42,30 @@ function applyBaseStyles(element, config) {
   element.style.color = config.textColor || 'grey';
 }
 
-function getTextModifications(text, config) {
-  let modifiedText = text;
-  // Replace all the dashes with en-dashes so they look nicer
-  if (config.longDash) {
-    modifiedText = modifiedText.split('-').join('–');
-  }
-  return modifiedText;
+function formatLegend(lines) {
+  let inTable = false;
+  let tableWidth = 0;
+  return lines.map(line => {
+    if (line.match(/^\s*\*+\s*$/)) {
+      line = line.trim()
+        .replace(String.fromCharCode(13), '')
+        .replace(/\*/g, '–');
+      inTable = !inTable;
+      tableWidth = line.length;
+    } else if (inTable) {
+      if (line.length < tableWidth) {
+        line = line.replace(String.fromCharCode(13), '');
+        line += ' '.repeat(tableWidth - line.length);
+      }
+    }
+    return line;
+  });
+}
 
+function concludingLineStyles(lines, config) {
+  lines = formatLegend(lines);
+  if (config.dashOverride !== '-') {
+    lines = lines.map(line => line.replace(/-/g, config.dashOverride || '–'));
+  }
+  return lines;
 }
