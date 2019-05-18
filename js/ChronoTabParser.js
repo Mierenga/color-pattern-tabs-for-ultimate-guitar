@@ -19,7 +19,7 @@
       this._tabSheet.tabLines = this._rawLines.filter((rawLine, rawLineIndex) => {
         if (this.constructor.isTabLine(rawLine)) {
           currentStaffRawIndices.push(rawLineIndex);
-          let staffLine = rawLine.trim();
+          let staffLine = rawLine;
           currentStaff.push(staffLine);
           if (staffLine.length > longestCurrentStaffLineLength) {
             longestCurrentStaffLineLength = staffLine.length;

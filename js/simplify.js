@@ -3,16 +3,18 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 function run(config) {
-  const tabContainer = getTablatureContainerElement();
+  document.chronos.tabContainer = getTablatureContainerElement();
   if (!document.chronos.rawText) {
-    applyBaseStyles(tabContainer, config);
-    let rawText = tabContainer.innerText;
+    isolateContainer(document.chronos.tabContainer, config);
+    let rawText = document.chronos.tabContainer.innerText;
     document.extutil.addProperty('chronos', 'rawText', rawText);
   }
+
+  applyBaseStyles(document.chronos.tabContainer, config);
   const tabSheet = new document.chronos.ChronoTabParser(document.chronos.rawText);
   const tabStyler = new document.chronos.ChronoTabStyler(tabSheet, config.colorTheme || 'constructionpaper');
   const styledLines = tabStyler.getStyledText();
-  tabContainer.innerHTML = concludingLineStyles(styledLines, config).join('\n');;
+  document.chronos.tabContainer.innerHTML = concludingLineStyles(styledLines, config).join('\n');
 }
 
 function getTablatureContainerElement() {
@@ -21,25 +23,24 @@ function getTablatureContainerElement() {
   return pres[0];
 }
 
-function applyBaseStyles(element, config) {
+function isolateContainer(element, config) {
   // hide everything
   for (let child of document.body.children) {
     child.style.display = 'none';
   }
-
-  let bgColor = config.backgroundColor || '#1B1B1B'
   element.style.display = 'block';
-  // document.body.innerHTML += '<link href="https://fonts.googleapis.com/css?family=Oxygen+Mono" rel="stylesheet">';
-
   // add in the tab element
   document.body.append(element);
   element.className += " chronos_main"
+}
 
+function applyBaseStyles(element, config) {
   // apply styles
+  let bgColor = config.backgroundColor || '#1B1B1B'
   document.body.style.backgroundColor = bgColor;
   element.style.backgroundColor = bgColor;
   element.style.padding = (config.margin || 80) + 'px';
-  element.style.margin = '0 auto';
+  // element.style.margin = '0 auto';
   element.style.fontSize = (config.fontSize || 24) + 'px';
   element.style.fontFamily = (config.font || 'Courier') + ', monospace';
   element.style.textAlign = config.alignment || 'center';

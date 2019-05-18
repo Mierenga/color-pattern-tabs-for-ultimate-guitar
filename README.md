@@ -20,14 +20,16 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
         - [ ] hide colors
         - [ ] randomize color order
         - [ ] rotate color order
-        - [ ] choose color pallete
+        - [x] choose color pallete
         - [ ] outline only
-        - [ ] choose background color
+        - [x] choose background color
     - Text
-        - [ ] choose left-align or center-align
-        - [ ] set font size
-        - [ ] set font
-
+        - [x] choose left, center, or right align
+        - [x] set font size
+        - [x] set font
+    - CSS
+        - [ ] border radius of chronos
+    - Save options to local storage (maybe can use dat.gui localStorage feature, not sure if it works OOTB in extension context)
 
 - [ ] Pull down ribbon to activate from UG
     - https://lab.hakim.se/forkit-js/
