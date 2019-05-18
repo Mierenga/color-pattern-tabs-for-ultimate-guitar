@@ -4,9 +4,13 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
 function run(config) {
   const tabContainer = getTablatureContainerElement();
-  applyBaseStyles(tabContainer, config);
-  const tabSheet = new ChronoTabParser(tabContainer.innerText);
-  const tabStyler = new ChronoTabStyler(tabSheet, config.colorTheme || 'constructionpaper');
+  if (!document.chronos.rawText) {
+    applyBaseStyles(tabContainer, config);
+    let rawText = tabContainer.innerText;
+    document.extutil.addProperty('chronos', 'rawText', rawText);
+  }
+  const tabSheet = new document.chronos.ChronoTabParser(document.chronos.rawText);
+  const tabStyler = new document.chronos.ChronoTabStyler(tabSheet, config.colorTheme || 'constructionpaper');
   const styledLines = tabStyler.getStyledText();
   tabContainer.innerHTML = concludingLineStyles(styledLines, config).join('\n');;
 }
