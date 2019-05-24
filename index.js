@@ -52,7 +52,7 @@ document.chronos = ((exports)=>{
     { key: 'font',                value: 'Courier', },
     { key: 'alignment',           value: 'center', options: ['center', 'left', 'right']},
     { key: 'dashOverride',        value: '', },
-    { key: 'colorTheme',          value: 'constructionpaper', options: ['none', 'nature', 'coolit', 'starbrite', 'constructionpaper']},
+    { key: 'colorTheme',          value: 'constructionpaper', options: Object.keys(document.chronos_colors).sort()},
   ], exports.postConfig);
 
   let run = (files, data) => chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
