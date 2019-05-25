@@ -6,7 +6,8 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
 ![](screenshots/after1.png?raw=true)
 ![](screenshots/after2.png?raw=true)
 
-# Now available as a chrome extension at: https://chrome.google.com/webstore/detail/colorized-tabs-for-ultima/dallnmljjnjlfgcljhjahhhdfpojnbfc
+# Chrome extension
+Available as a chrome extension in the Chrome Web Store: https://chrome.google.com/webstore/detail/colorized-tabs-for-ultima/dallnmljjnjlfgcljhjahhhdfpojnbfc
 
 
 # Potentials
