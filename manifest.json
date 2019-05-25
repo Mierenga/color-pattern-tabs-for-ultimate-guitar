@@ -1,6 +1,9 @@
   {
     "name": "Simple Guitar Tabs for Ultimate Guitar",
     "version": "0.0.1",
+    "icons": {
+      "128": "128_strings.png"
+    },
     "description": "Removes all the clutter from Ultimate Guitar tabs and uses color to enhance your pattern recognition.",
     "permissions": ["activeTab", "declarativeContent", "storage"],
     "background": {
