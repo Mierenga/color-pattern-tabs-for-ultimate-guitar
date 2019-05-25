@@ -1,7 +1,12 @@
 class GUIConfig {
-  constructor(controls, onChange) {
+  constructor(kv, controls, onChange) {
+    kv = kv || {};
     this._config = controls.reduce((obj, control) => {
-      obj[control.key] = control.value;
+      if (kv[control.key] !== undefined) {
+        obj[control.key] = kv[control.key];
+      } else {
+        obj[control.key] = control.default;
+      }
       return obj;
     }, {});
     this._gui = new dat.GUI();
@@ -26,34 +31,103 @@ class GUIConfig {
         }
       }
       if (entry.step) { control.min(entry.step); }
+      if (entry.name) { control.name(entry.name); }
 
       control.onFinishChange(() => onChange(this.kv));
-      console.dir(control);
     });
-    console.dir(this._gui);
+    let datGuiElement = document.getElementsByClassName('dg main a')[0];
+    console.log(datGuiElement.style);
+    document.body.style.width = datGuiElement.offsetWidth + 'px';
+    document.body.style.height = '300px';
+    console.log('gui');
+    console.log(this._gui);
+    this._gui.__closeButton.hidden = true;
   }
   get kv() { return this._config; }
 };
 
-document.chronos = ((exports)=>{
-
-  exports.postConfig = (config) => {
+document.chronos= ((namespace)=>{
+  namespace.postConfig = (config) => {
     Object.assign(config, { isConfig: true });
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, config);
     });
   };
 
-  exports.gui = new GUIConfig([
-    { key: 'fontSize',            value: 24, min: 1, max: 64, step: 1 },
-    { key: 'margin',              value: 80, min: 0, max: 100, step: 1},
-    { key: 'backgroundColor',     value: '#1B1B1B',   type: 'color'},
-    { key: 'textColor',           value: '#5c5c5c',   type: 'color' },
-    { key: 'font',                value: 'Courier', },
-    { key: 'alignment',           value: 'center', options: ['center', 'left', 'right']},
-    { key: 'dashOverride',        value: '', },
-    { key: 'colorTheme',          value: 'constructionpaper', options: Object.keys(document.chronos_colors).sort()},
-  ], exports.postConfig);
+  namespace.defaultControls = [
+    { 
+      key: 'colorTheme',
+      name: 'color theme',
+      default: 'coolit',
+      options: Object.keys(document.chronos_colors).sort()
+    },
+    {
+      key: 'fontSize',
+      name: 'font size',
+      default: 24, min: 1, max: 64, step: 1
+    },
+    {
+      key: 'margin',
+      default: 80, min: 0, max: 100, step: 1},
+    {
+      key: 'backgroundColor',
+      name: 'background',
+      default: '#1B1B1B',
+      type: 'color'
+    },
+    {
+      key: 'textColor',
+      name: 'text color',
+      default: '#5c5c5c',
+      type: 'color'
+    },
+    {
+      key: 'font',
+      default: 'Courier',
+    },
+    {
+      key: 'alignment',
+      default: 'center',
+      options: ['center', 'left', 'right']
+    },
+    {
+      key: 'dashOverride',
+      name: 'override dash',
+      default: '',
+    },
+    {
+      key: 'undoChanges',
+      name: 'Undo Changes',
+      default: () => {
+        namespace.gui._gui.__controllers.forEach(controller => {
+          controller.setValue(controller.initialValue);
+        });
+      },
+    },
+    {
+      key: 'resetToDefault',
+      name: 'Reset to Defaults',
+      default: () => {
+        let defaultControlsMap = namespace.defaultControls.reduce((obj, control) => {
+          obj[control.key] = control.default;
+          return obj;
+        }, {});
+        namespace.gui._gui.__controllers.forEach(controller => {
+          controller.setValue(defaultControlsMap[controller.property]);
+        });
+      },
+    },
+  ];
+
+  onControlValuesChanged = (kv) => {
+    namespace.postConfig(kv);
+    chrome.storage.sync.set({config: kv}, (err) => {
+      if (err) { console.log('error saving kv to storage'); }
+    });
+  };
+
+
+  namespace.gui = new GUIConfig(namespace.loadedConfig, namespace.defaultControls, onControlValuesChanged);
 
   let run = (files, data) => chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     if (typeof files !== 'object') { return; }
@@ -64,14 +138,14 @@ document.chronos = ((exports)=>{
       files.js.forEach((file, i) => {
       
         let cb = (i === files.js.length-1) ? (args) => {
-          if (data) { exports.postConfig(data); }
+          if (data) { namespace.postConfig(data); }
         } : undefined;
         chrome.tabs.executeScript(tabs[0].id, {file: file, }, cb)
       });
     }
   });
 
-  exports.loadLibs = () => {
+  namespace.loadLibs = () => {
     run({
       js: [
         '/lib/extutil.js',
@@ -85,18 +159,18 @@ document.chronos = ((exports)=>{
     });
   }
    
-  exports.simplify = () => run({
+  namespace.simplify = () => run({
     js: [
       '/js/simplify.js',
     ],
-  }, exports.gui.kv);
+  }, namespace.gui.kv);
 
-  return exports;
-})({});
+  return namespace;
+})
 
-
-
-
-
-document.chronos.loadLibs();
-document.chronos.simplify();
+// chrome.storage.sync.set({config: {}}, ()=>{});
+chrome.storage.sync.get('config', (retrieved) => {
+  document.chronos = document.chronos({ loadedConfig: retrieved.config });
+  document.chronos.loadLibs();
+  document.chronos.simplify();
+});
