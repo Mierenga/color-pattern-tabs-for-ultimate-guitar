@@ -1,10 +1,12 @@
 Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses color to enhance your pattern recognition.
 
 ## Before
-![](img/before.png?raw=true)
+![](screenshots/before.png?raw=true)
 ## After
-![](img/after1.png?raw=true)
-![](img/after2.png?raw=true)
+![](screenshots/after1.png?raw=true)
+![](screenshots/after2.png?raw=true)
+
+# Now available as a chrome extension at: https://chrome.google.com/webstore/detail/colorized-tabs-for-ultima/dallnmljjnjlfgcljhjahhhdfpojnbfc
 
 
 # Potentials
@@ -17,7 +19,7 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
 
 - Options menu
     - Colors
-        - [ ] hide colors
+        - [x] hide colors
         - [ ] randomize color order
         - [ ] rotate color order
         - [x] choose color pallete
@@ -29,7 +31,7 @@ Chrome extension that removes all the clutter from Ultimate Guitar tabs and uses
         - [x] set font
     - CSS
         - [ ] border radius of chronos
-    - Save options to local storage (maybe can use dat.gui localStorage feature, not sure if it works OOTB in extension context)
+    - [x] Save options to local storage (maybe can use dat.gui localStorage feature, not sure if it works OOTB in extension context)
 
 - [ ] Pull down ribbon to activate from UG
     - https://lab.hakim.se/forkit-js/
