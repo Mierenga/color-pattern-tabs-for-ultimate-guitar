@@ -19,11 +19,12 @@
   border-top-width: 1px;
 }
 
-.top_left {
+/* .top_left { */
+.top.left {
   border-top-left-radius: 5px;
 }
 
-.top_right {
+.top.right {
   border-top-right-radius: 5px;
 }
 
@@ -33,11 +34,11 @@
   border-bottom-width: 1px;
 }
 
-.bottom_left {
+.bottom.left {
   border-bottom-left-radius: 5px;
 }
 
-.bottom_right {
+.bottom.right {
   border-bottom-right-radius: 5px;
 }
 
@@ -45,8 +46,12 @@
   line-height: 1 !important;
 }
 
-.double_left {
+.double.left {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
-.double_right {
+.double.right {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }

@@ -159,9 +159,9 @@ document.chronos= ((namespace)=>{
     });
   }
    
-  namespace.simplify = () => run({
+  namespace.inject = () => run({
     js: [
-      '/js/simplify.js',
+      '/js/inject.js',
     ],
   }, namespace.gui.kv);
 
@@ -172,5 +172,5 @@ document.chronos= ((namespace)=>{
 chrome.storage.sync.get('config', (retrieved) => {
   document.chronos = document.chronos({ loadedConfig: retrieved.config });
   document.chronos.loadLibs();
-  document.chronos.simplify();
+  document.chronos.inject();
 });

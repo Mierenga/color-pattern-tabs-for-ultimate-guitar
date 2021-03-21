@@ -1,7 +1,8 @@
 (() => {
   class ChronoTabParser {
     constructor(text) {
-      this._rawLines = text.split('\n');
+      console.log(text);
+      this._rawLines = text.split('\n').filter(Boolean);
       this._groupLinesIntoStaffs();
       this._findAndGroupChronos();
     }
@@ -150,8 +151,8 @@
      */
     static isTabLine(line) {
       return ((l) => 
-        (/^[abcdefgABCDEFG][\|:][0-9(\-]/.exec(l) !== null) ||
-        (/-[0-9)\s\-]*\|/.exec(l) !== null)
+        (/^[abcdefgABCDEFG].?[\|:][0-9(\-]/.exec(l) !== null) ||
+        (/^-[0-9)\s\-]*\|/.exec(l) !== null)
       )(line.trim());
     }
 
